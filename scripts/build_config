@@ -1,0 +1,25 @@
+#!/bin/bash
+
+dir=include
+
+# echo [build_config]: pwd  `pwd`
+#------------------------------------------------------------------------------
+# ewcroft and its subpackages
+#------------------------------------------------------------------------------
+if [ ! -d $dir/ewcroft ] ; then mkdir -p $dir/ewcroft ; fi
+
+# for d in alg base gui loop mod obj val ; do
+for d in alg ana base geom gui loop mod obj val ; do
+    if [[ -e ewcroft/$d ]] && [[ ! -e $dir/ewcroft/$d ]] ; then 
+	echo `pwd`$0 : creating symbolic link $dir/ewcroft/$d
+	ln -s ../../ewcroft/$d/$d $dir/ewcroft/$d
+    fi
+done
+#------------------------------------------------------------------------------
+# SCons-related things: executed from ewcroft
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# .rootrc and rootlogon.C could be modified by the user, copy them just once
+#------------------------------------------------------------------------------
+if [ ! -f ./.rootrc     ] ; then cp ewcroft/scripts/.rootrc     ./. ; fi
+if [ ! -f ./rootlogon.C ] ; then cp ewcroft/scripts/rootlogon.C ./. ; fi
